@@ -10,7 +10,7 @@ export default function Home() {
             <img
               alt="Sports Broadcast"
               className="w-full h-full object-cover opacity-40 mix-blend-luminosity"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw0cW-gPHJPfGAifuvBs9prVH3Dlo5s9sxRL50WUP1IoL8E_vCUAK0DDo_HZnCVJpL1R6VnV9pI82nOYchMG8VXyM2O9FG4PFAYKGLhnyhGEim3tAqG1zKHYbSHUE8QWAUqYGZLIK4jZcZCxpniUpzj2VAwFU2k7JG6JqutsJt9UdTLFuDbSqbwU5RfiRfOlm7ihIE6XHhSgrBMBE4aKJekDuI_6NFKHht1vsDkizKWPRh5MdA8PgLn1icYdY_ee9tObnbEYdNto8"
+              src="/hero-arena.png"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
           </div>
@@ -143,26 +143,30 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
               <div className="absolute bottom-4 left-4"><h3 className="text-white font-headline font-bold text-lg uppercase italic">Basketball</h3></div>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-5 flex flex-col justify-center items-center text-center hover:bg-red-600 group transition-colors cursor-pointer">
-              <span className="material-symbols-outlined text-3xl mb-2 text-red-600 group-hover:text-white transition-colors">sports_tennis</span>
-              <h4 className="font-headline font-bold uppercase text-sm group-hover:text-white transition-colors">Tennis</h4>
+            <div className="bg-surface-container-lowest rounded-xl overflow-hidden group relative h-36 sm:h-full min-h-[144px]">
+              <img alt="Tennis" className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+              <div className="absolute bottom-4 left-4"><h3 className="text-white font-headline font-bold text-lg uppercase italic">Tennis</h3></div>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-5 flex flex-col justify-center items-center text-center hover:bg-red-600 group transition-colors cursor-pointer">
-              <span className="material-symbols-outlined text-3xl mb-2 text-red-600 group-hover:text-white transition-colors">sports_cricket</span>
-              <h4 className="font-headline font-bold uppercase text-sm group-hover:text-white transition-colors">Cricket</h4>
+            <div className="bg-surface-container-lowest rounded-xl overflow-hidden group relative h-36 sm:h-full min-h-[144px]">
+              <img alt="Cricket" className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+              <div className="absolute bottom-4 left-4"><h3 className="text-white font-headline font-bold text-lg uppercase italic">Cricket</h3></div>
             </div>
             <div className="col-span-2 bg-surface-container-lowest rounded-xl overflow-hidden group relative h-36">
               <img alt="Motorsports" className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2hs7M-I1-WaFgBzo2AHAnNXZPeiCkpuzRvacXiscfgnSAMQ4Gzy4WY0VU3ldV256Nsr_vY8dJ8f7mFKayadzViX5MGqyGe_IDVcJ1IAcn6xq5knUdnjkY-6HqEh_qn8FpNkUqwGP77Rz_knKit0zoe067lpsvUZSKvX2etVGKsAzxK2jWViiJv10u2LeOeAirMWruHhmypyITbQgjZbclFyzhPgoauBYRcg3VQKIIXBkXBoNWCB1Od-tmAozGQ8RDkosTL_NyETU" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
               <div className="absolute bottom-4 left-4"><h3 className="text-white font-headline font-bold text-lg uppercase italic">Motorsports</h3></div>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-5 flex flex-col justify-center items-center text-center hover:bg-red-600 group transition-colors cursor-pointer">
-              <span className="material-symbols-outlined text-3xl mb-2 text-red-600 group-hover:text-white transition-colors">sports_golf</span>
-              <h4 className="font-headline font-bold uppercase text-sm group-hover:text-white transition-colors">Golf</h4>
+            <div className="bg-surface-container-lowest rounded-xl overflow-hidden group relative h-36 sm:h-full min-h-[144px]">
+              <img alt="Golf" className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1535139262971-c5184570f812?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+              <div className="absolute bottom-4 left-4"><h3 className="text-white font-headline font-bold text-lg uppercase italic">Golf</h3></div>
             </div>
-            <div className="bg-surface-container-lowest rounded-xl p-5 flex flex-col justify-center items-center text-center hover:bg-red-600 group transition-colors cursor-pointer">
-              <span className="material-symbols-outlined text-3xl mb-2 text-red-600 group-hover:text-white transition-colors">sports_mma</span>
-              <h4 className="font-headline font-bold uppercase text-sm group-hover:text-white transition-colors">Boxing</h4>
+            <div className="bg-surface-container-lowest rounded-xl overflow-hidden group relative h-36 sm:h-full min-h-[144px]">
+              <img alt="Boxing" className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+              <div className="absolute bottom-4 left-4"><h3 className="text-white font-headline font-bold text-lg uppercase italic">Boxing</h3></div>
             </div>
           </div>
         </div>
