@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -25,9 +25,9 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Link to="/" className={getNavLinkClass("/")}>Home</Link>
               <Link to="/news" className={getNavLinkClass("/news")}>News</Link>
               <Link to="/directory" className={getNavLinkClass("/directory")}>Directory</Link>
-              <Link to="/live" className={getNavLinkClass("/live")}>Live Now</Link>
+               <Link to="/live" className={getNavLinkClass("/live")}>Live Now</Link>
               <Link to="/schedules" className={getNavLinkClass("/schedules")}>Schedules</Link>
-              <Link to="/platforms" className={getNavLinkClass("/platforms")}>Platforms</Link>
+              <Link to="/platforms" className={getNavLinkClass("/platforms")}>Categories</Link>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -112,17 +112,25 @@ export default function Layout({ children }: { children: ReactNode }) {
           <span className="material-symbols-outlined" style={location.pathname==='/live'?{fontVariationSettings:"'FILL' 1"}:{}}>sensors</span>
           <span className="font-label text-[9px] font-medium uppercase tracking-widest">Live</span>
         </Link>
-        <Link className={`flex flex-col items-center justify-center ${location.pathname==='/news'?'text-red-600 font-bold':'text-slate-400'}`} to="/news">
-          <span className="material-symbols-outlined" style={location.pathname==='/news'?{fontVariationSettings:"'FILL' 1"}:{}}>article</span>
+         <Link className={`flex flex-col items-center justify-center ${location.pathname==='/news'?'text-red-600 font-bold':'text-slate-400'}`} to="/news">
+          <span className="material-symbols-outlined" style={location.pathname==='/news'?{fontVariationSettings:"'FILL' 1"}:{}}>newspaper</span>
           <span className="font-label text-[9px] font-medium uppercase tracking-widest">News</span>
+        </Link>
+        <Link className={`flex flex-col items-center justify-center ${location.pathname==='/directory'?'text-red-600 font-bold':'text-slate-400'}`} to="/directory">
+          <span className="material-symbols-outlined" style={location.pathname==='/directory'?{fontVariationSettings:"'FILL' 1"}:{}}>layers</span>
+          <span className="font-label text-[9px] font-medium uppercase tracking-widest">Directory</span>
+        </Link>
+        <Link className={`flex flex-col items-center justify-center ${location.pathname==='/live'?'text-red-600 font-bold':'text-slate-400'}`} to="/live">
+          <span className="material-symbols-outlined" style={location.pathname==='/live'?{fontVariationSettings:"'FILL' 1"}:{}}>live_tv</span>
+          <span className="font-label text-[9px] font-medium uppercase tracking-widest">Live</span>
         </Link>
         <Link className={`flex flex-col items-center justify-center ${location.pathname==='/schedules'?'text-red-600 font-bold':'text-slate-400'}`} to="/schedules">
           <span className="material-symbols-outlined" style={location.pathname==='/schedules'?{fontVariationSettings:"'FILL' 1"}:{}}>calendar_today</span>
           <span className="font-label text-[9px] font-medium uppercase tracking-widest">Schedule</span>
         </Link>
-        <Link className={`flex flex-col items-center justify-center ${location.pathname==='/directory'?'text-red-600 font-bold':'text-slate-400'}`} to="/directory">
-          <span className="material-symbols-outlined" style={location.pathname==='/directory'?{fontVariationSettings:"'FILL' 1"}:{}}>menu</span>
-          <span className="font-label text-[9px] font-medium uppercase tracking-widest">More</span>
+        <Link className={`flex (flex-col items-center justify-center) ${location.pathname==='/platforms'?'bg-red-600 text-white rounded-xl p-2 scale-110 shadow-lg shadow-red-600/20':'text-slate-400 p-2'}`} to="/platforms">
+          <span className="material-symbols-outlined" style={location.pathname==='/platforms'?{fontVariationSettings:"'FILL' 1"}:{}}>grid_view</span>
+          <span className="font-label text-[10px] font-semibold uppercase tracking-wider mt-1">Categories</span>
         </Link>
       </nav>
     </div>

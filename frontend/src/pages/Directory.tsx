@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Directory() {
   return (
     <div className="flex max-w-screen-2xl mx-auto min-h-screen">
@@ -83,43 +85,43 @@ export default function Directory() {
                 </button>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="p-4 rounded-xl bg-surface-container-low border-l-4 border-red-600 hover:bg-surface-container-high transition-all cursor-pointer group">
+                <Link to="/channel" className="block p-4 rounded-xl bg-surface-container-low border-l-4 border-red-600 hover:bg-surface-container-high transition-all cursor-pointer group">
                   <div className="flex items-center justify-between mb-3">
                     <span className="font-label text-[10px] font-black uppercase text-red-600 tracking-widest flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-red-600 pulse-dot"></span>Live Now</span>
                     <span className="material-symbols-outlined text-lg text-outline-variant group-hover:text-primary transition-colors">star</span>
                   </div>
                   <h4 className="font-headline font-bold text-base mb-1">Star Sports 1 Hindi</h4>
                   <p className="text-xs text-on-surface-variant">IPL: Mumbai Indians vs CSK</p>
-                </div>
-                <div className="p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all cursor-pointer group">
+                </Link>
+                <Link to="/channel" className="block p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all cursor-pointer group">
                   <div className="flex items-center justify-between mb-3">
                     <span className="font-label text-[10px] font-black uppercase text-on-surface-variant tracking-widest">4K Ultra</span>
                     <span className="material-symbols-outlined text-lg text-outline-variant group-hover:text-primary transition-colors">star</span>
                   </div>
                   <h4 className="font-headline font-bold text-base mb-1">JioCinema 4K</h4>
                   <p className="text-xs text-on-surface-variant">T20 World Cup Warm-ups</p>
-                </div>
-                <div className="p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all cursor-pointer group">
+                </Link>
+                <Link to="/channel" className="block p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all cursor-pointer group">
                   <div className="flex items-center justify-between mb-3">
                     <span className="font-label text-[10px] font-black uppercase text-on-surface-variant tracking-widest">Premium</span>
                     <span className="material-symbols-outlined text-lg text-outline-variant group-hover:text-primary transition-colors">star</span>
                   </div>
                   <h4 className="font-headline font-bold text-base mb-1">Sony Sports Ten 1</h4>
                   <p className="text-xs text-on-surface-variant">India Tour of Australia Highlights</p>
-                </div>
-                <div className="p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all cursor-pointer group">
+                </Link>
+                <Link to="/channel" className="block p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all cursor-pointer group">
                   <div className="flex items-center justify-between mb-3">
                     <span className="font-label text-[10px] font-black uppercase text-on-surface-variant tracking-widest">Digital</span>
                     <span className="material-symbols-outlined text-lg text-outline-variant group-hover:text-primary transition-colors">star</span>
                   </div>
                   <h4 className="font-headline font-bold text-base mb-1">FanCode</h4>
                   <p className="text-xs text-on-surface-variant">Domestic Ranji Trophy Finals</p>
-                </div>
+                </Link>
               </div>
             </div>
 
             {/* Australia */}
-            <div className="bg-surface-container-lowest rounded-xl p-6 hover:-translate-y-1 transition-all duration-300 cursor-pointer group shadow-sm border border-outline-variant/10">
+            <div className="bg-surface-container-lowest rounded-xl p-6 hover:-translate-y-1 transition-all duration-300 shadow-sm border border-outline-variant/10 group">
               <div className="flex items-center gap-4 mb-5">
                 <div className="w-16 h-10 rounded bg-blue-700 shadow-sm flex-shrink-0"></div>
                 <div>
@@ -128,19 +130,19 @@ export default function Directory() {
                 </div>
               </div>
               <div className="space-y-2 opacity-60 group-hover:opacity-100 transition-opacity">
-                <div className="flex justify-between items-center text-sm border-b border-surface-container-high pb-2">
+                <Link to="/channel" className="flex justify-between items-center text-sm border-b border-surface-container-high pb-2 hover:text-red-600 transition-colors">
                   <span className="font-medium">Fox Cricket</span>
                   <span className="material-symbols-outlined text-xs">arrow_forward_ios</span>
-                </div>
-                <div className="flex justify-between items-center text-sm pb-2">
+                </Link>
+                <Link to="/channel" className="flex justify-between items-center text-sm pb-2 hover:text-red-600 transition-colors">
                   <span className="font-medium">Channel 7 Sport</span>
                   <span className="material-symbols-outlined text-xs">arrow_forward_ios</span>
-                </div>
+                </Link>
               </div>
             </div>
 
             {/* Pakistan */}
-            <div className="bg-surface-container-lowest rounded-xl p-6 hover:-translate-y-1 transition-all duration-300 cursor-pointer group shadow-sm border border-outline-variant/10">
+            <div className="bg-surface-container-lowest rounded-xl p-6 hover:-translate-y-1 transition-all duration-300 shadow-sm border border-outline-variant/10 group">
               <div className="flex items-center gap-4 mb-5">
                 <div className="w-16 h-10 rounded bg-green-700 shadow-sm flex-shrink-0"></div>
                 <div>
@@ -149,19 +151,19 @@ export default function Directory() {
                 </div>
               </div>
               <div className="space-y-2 opacity-60 group-hover:opacity-100 transition-opacity">
-                <div className="flex justify-between items-center text-sm border-b border-surface-container-high pb-2">
+                <Link to="/channel" className="flex justify-between items-center text-sm border-b border-surface-container-high pb-2 hover:text-red-600 transition-colors">
                   <span className="font-medium">PTV Sports</span>
                   <span className="material-symbols-outlined text-xs">arrow_forward_ios</span>
-                </div>
-                <div className="flex justify-between items-center text-sm pb-2">
+                </Link>
+                <Link to="/channel" className="flex justify-between items-center text-sm pb-2 hover:text-red-600 transition-colors">
                   <span className="font-medium">Ten Sports PK</span>
                   <span className="material-symbols-outlined text-xs">arrow_forward_ios</span>
-                </div>
+                </Link>
               </div>
             </div>
 
             {/* New Zealand */}
-            <div className="bg-surface-container-lowest rounded-xl p-6 hover:-translate-y-1 transition-all duration-300 cursor-pointer group shadow-sm border border-outline-variant/10">
+            <div className="bg-surface-container-lowest rounded-xl p-6 hover:-translate-y-1 transition-all duration-300 shadow-sm border border-outline-variant/10 group">
               <div className="flex items-center gap-4 mb-5">
                 <div className="w-16 h-10 rounded bg-blue-900 shadow-sm flex-shrink-0"></div>
                 <div>
@@ -170,10 +172,10 @@ export default function Directory() {
                 </div>
               </div>
               <div className="space-y-2 opacity-60 group-hover:opacity-100 transition-opacity">
-                <div className="flex justify-between items-center text-sm pb-2">
+                <Link to="/channel" className="flex justify-between items-center text-sm pb-2 hover:text-red-600 transition-colors">
                   <span className="font-medium">Sky Sport NZ</span>
                   <span className="material-symbols-outlined text-xs">arrow_forward_ios</span>
-                </div>
+                </Link>
               </div>
             </div>
           </div>

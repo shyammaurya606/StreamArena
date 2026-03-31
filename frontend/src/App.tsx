@@ -6,6 +6,7 @@ import NewsFeed from "./pages/NewsFeed";
 import Schedules from "./pages/Schedules";
 import Directory from "./pages/Directory";
 import Platforms from "./pages/Platforms";
+import ChannelDetail from "./pages/ChannelDetail";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
           <Route path="/schedules" element={<Schedules />} />
           <Route path="/directory" element={<Directory />} />
           <Route path="/platforms" element={<Platforms />} />
+          <Route path="/channel" element={<ChannelDetail />} />
+          <Route path="/channel/:id" element={<ChannelDetail />} />
         </Routes>
       </Layout>
     </Router>
