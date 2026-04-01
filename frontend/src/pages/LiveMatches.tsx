@@ -117,7 +117,7 @@ export default function LiveMatches() {
       <section className="max-w-screen-2xl mx-auto px-6 py-12">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <h2 className="font-headline text-4xl font-black uppercase tracking-tighter">Velocity Grid</h2>
+            <h2 className="font-headline text-4xl font-black uppercase tracking-tighter">Stream Arena</h2>
             <p className="text-on-surface-variant font-label text-xs uppercase tracking-widest mt-1">Active matches sorted by global viewership</p>
           </div>
         </div>

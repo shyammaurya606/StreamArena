@@ -68,7 +68,7 @@ export default function AuthPage() {
             {isLogin ? "Welcome Back" : "Join for Free"}
           </h1>
           <p className="text-on-surface-variant font-label text-xs uppercase tracking-widest mt-2">
-            {isLogin ? "Sign in to access live matches, news & schedules" : "Create your StreamArena account"}
+            {isLogin ? "Sign in to access live matches, news & schedules" : "Create your Stream Arena account"}
           </p>
         </div>
 

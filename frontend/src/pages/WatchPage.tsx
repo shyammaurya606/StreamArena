@@ -91,7 +91,7 @@ export default function WatchPage() {
                 Watch {channel.shortName} <br /> Official Live Feed
               </h1>
               <p className="text-white/60 font-body text-sm md:text-base max-w-lg mx-auto mb-10 leading-relaxed">
-                Connect to the official {channel.fullName} secure broadcast. You will be authenticated via Velocity Grid and directed to the high-definition stream.
+                Connect to the official {channel.fullName} secure broadcast. You will be authenticated via Stream Arena and directed to the high-definition stream.
               </p>
 
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
@@ -123,7 +123,7 @@ export default function WatchPage() {
               Broadcasting Details
             </h3>
             <p className="text-white/60 leading-relaxed text-base font-body mb-8">
-              {channel.description} This theater view session is managed by Velocity Grid Pro. Please ensure your network supports high-bandwidth video playback.
+              {channel.description} This theater view session is managed by Stream Arena Pro. Please ensure your network supports high-bandwidth video playback.
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-6 py-6 bg-white/5 rounded-2xl border border-white/5">
               <div>
@@ -162,7 +162,7 @@ export default function WatchPage() {
             </div>
             {/* Disclaimer */}
             <div className="px-4 text-[9px] text-white/20 uppercase tracking-widest leading-loose text-center">
-              Copyright © 2024 Velocity Grid Networks. Stream authentication is provided by the carrier network. 
+              Copyright © 2024 Stream Arena Networks. Stream authentication is provided by the carrier network. 
               Playback issues? Contact carrier nodes directly.
             </div>
           </div>

@@ -20,7 +20,7 @@ export default function Home() {
               Live: Champions League Finals
             </div>
             <h1 className="text-6xl md:text-8xl font-headline font-black text-white leading-[0.88] tracking-tighter mb-6 uppercase italic">
-              VELOCITY<br />GRID
+              STREAM<br />ARENA
             </h1>
             <p className="text-lg text-white/70 font-body mb-8 max-w-md leading-relaxed">
               The ultimate directory for global sports broadcasting. Every game, every channel, zero clutter.
@@ -117,7 +117,7 @@ export default function Home() {
             </Link>
             <div className="flex-1 bg-red-600 text-white rounded-xl p-6 flex items-center justify-center text-center">
               <div>
-                <p className="font-headline font-black text-xl uppercase tracking-tighter">Velocity Pro</p>
+                <p className="font-headline font-black text-xl uppercase tracking-tighter">Stream Arena Pro</p>
                 <p className="text-xs font-label uppercase mt-1 opacity-80">Unlock 20+ Premium Channels</p>
                 <button className="mt-4 bg-white text-red-600 px-6 py-2 rounded-full font-headline font-bold uppercase text-xs hover:scale-105 transition-transform">Upgrade Now</button>
               </div>

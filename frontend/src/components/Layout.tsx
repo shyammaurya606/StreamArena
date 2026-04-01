@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <div className="flex justify-between items-center px-6 py-4 max-w-screen-2xl mx-auto">
           <div className="flex items-center gap-10">
             <Link to="/" className="text-2xl font-black text-slate-900 tracking-tighter font-headline uppercase select-none">
-              Velocity Grid
+              Stream Arena
             </Link>
             <div className="hidden md:flex items-center gap-6">
               <Link to="/" className={getNavLinkClass("/")}>Home</Link>
@@ -87,47 +87,47 @@ export default function Layout({ children }: { children: ReactNode }) {
       </main>
 
       {/* FOOTER */}
-      <footer className="w-full border-t border-slate-200 bg-slate-50 mt-auto pb-16 md:pb-0">
+      <footer className="w-full border-t border-white/10 bg-black mt-auto pb-16 md:pb-0 text-white">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 px-6 py-12 max-w-screen-2xl mx-auto">
           <div className="col-span-2 md:col-span-1">
-            <span className="text-lg font-black text-slate-900 font-headline uppercase tracking-tighter">Velocity Grid</span>
-            <p className="mt-3 text-slate-500 font-body text-sm leading-relaxed max-w-xs">
+            <span className="text-lg font-black text-white font-headline uppercase tracking-tighter">Stream Arena</span>
+            <p className="mt-3 text-white/50 font-body text-sm leading-relaxed max-w-xs">
               The premier directory for sports enthusiasts and broadcasters worldwide. Precision engineering for the sports fan.
             </p>
           </div>
           <div>
-            <h5 className="font-headline font-black uppercase text-xs tracking-widest mb-4 text-slate-900">Sports</h5>
-            <ul className="space-y-2 font-body text-sm text-slate-500">
-              <li><Link className="hover:underline hover:text-slate-900 transition-all" to="#">Football</Link></li>
-              <li><Link className="hover:underline hover:text-slate-900 transition-all" to="#">Basketball</Link></li>
-              <li><Link className="hover:underline hover:text-slate-900 transition-all" to="#">Tennis</Link></li>
-              <li><Link className="hover:underline hover:text-slate-900 transition-all" to="#">Cricket</Link></li>
+            <h5 className="font-headline font-black uppercase text-xs tracking-widest mb-4 text-white/40">Sports</h5>
+            <ul className="space-y-2 font-body text-sm text-white/60">
+              <li><Link className="hover:underline hover:text-red-500 transition-all font-label tracking-wide uppercase" to="#">Football</Link></li>
+              <li><Link className="hover:underline hover:text-red-500 transition-all font-label tracking-wide uppercase" to="#">Basketball</Link></li>
+              <li><Link className="hover:underline hover:text-red-500 transition-all font-label tracking-wide uppercase" to="#">Tennis</Link></li>
+              <li><Link className="hover:underline hover:text-red-500 transition-all font-label tracking-wide uppercase" to="#">Cricket</Link></li>
             </ul>
           </div>
           <div>
-            <h5 className="font-headline font-black uppercase text-xs tracking-widest mb-4 text-slate-900">Network</h5>
-            <ul className="space-y-2 font-body text-sm text-slate-500">
-              <li><Link className="hover:underline hover:text-slate-900 transition-all" to="#">Motorsports</Link></li>
-              <li><Link className="hover:underline hover:text-slate-900 transition-all" to="#">Golf</Link></li>
-              <li><Link className="hover:underline hover:text-slate-900 transition-all" to="/live">Live Directory</Link></li>
-              <li><Link className="hover:underline hover:text-slate-900 transition-all" to="/schedules">Channel Guide</Link></li>
+            <h5 className="font-headline font-black uppercase text-xs tracking-widest mb-4 text-white/40">Network</h5>
+            <ul className="space-y-2 font-body text-sm text-white/60">
+              <li><Link className="hover:underline hover:text-red-500 transition-all font-label tracking-wide uppercase" to="#">Motorsports</Link></li>
+              <li><Link className="hover:underline hover:text-red-500 transition-all font-label tracking-wide uppercase" to="#">Golf</Link></li>
+              <li><Link className="hover:underline hover:text-red-500 transition-all font-label tracking-wide uppercase" to="/live">Live Directory</Link></li>
+              <li><Link className="hover:underline hover:text-red-500 transition-all font-label tracking-wide uppercase" to="/schedules">Channel Guide</Link></li>
             </ul>
           </div>
           <div>
-            <h5 className="font-headline font-black uppercase text-xs tracking-widest mb-4 text-slate-900">Legal</h5>
-            <ul className="space-y-2 font-body text-sm text-slate-500">
-              <li><Link className="hover:underline hover:text-slate-900 transition-all" to="#">Privacy Policy</Link></li>
-              <li><Link className="hover:underline hover:text-slate-900 transition-all" to="#">Terms of Service</Link></li>
-              <li><Link className="hover:underline hover:text-slate-900 transition-all" to="#">Cookie Policy</Link></li>
+            <h5 className="font-headline font-black uppercase text-xs tracking-widest mb-4 text-white/40">Legal</h5>
+            <ul className="space-y-2 font-body text-sm text-white/60">
+              <li><Link className="hover:underline hover:text-red-500 transition-all font-label tracking-wide uppercase" to="#">Privacy Policy</Link></li>
+              <li><Link className="hover:underline hover:text-red-500 transition-all font-label tracking-wide uppercase" to="#">Terms of Service</Link></li>
+              <li><Link className="hover:underline hover:text-red-500 transition-all font-label tracking-wide uppercase" to="#">Cookie Policy</Link></li>
             </ul>
           </div>
         </div>
-        <div className="px-6 py-5 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-3 max-w-screen-2xl mx-auto">
-          <p className="text-slate-500 font-body text-sm">© 2026 Velocity Grid. All Rights Reserved.</p>
+        <div className="px-6 py-5 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-3 max-w-screen-2xl mx-auto">
+          <p className="text-white/40 font-body text-sm">© 2026 Stream Arena. All Rights Reserved.</p>
           <div className="flex gap-4">
-            <span className="material-symbols-outlined text-slate-400 hover:text-red-600 cursor-pointer transition-colors">public</span>
-            <span className="material-symbols-outlined text-slate-400 hover:text-red-600 cursor-pointer transition-colors">share</span>
-            <span className="material-symbols-outlined text-slate-400 hover:text-red-600 cursor-pointer transition-colors">rss_feed</span>
+            <span className="material-symbols-outlined text-white/40 hover:text-red-600 cursor-pointer transition-colors">public</span>
+            <span className="material-symbols-outlined text-white/40 hover:text-red-600 cursor-pointer transition-colors">share</span>
+            <span className="material-symbols-outlined text-white/40 hover:text-red-600 cursor-pointer transition-colors">rss_feed</span>
           </div>
         </div>
       </footer>

@@ -43,7 +43,7 @@ async def lifespan(app: FastAPI):
     yield
     pass
 
-app = FastAPI(title="Velocity Grid API", lifespan=lifespan)
+app = FastAPI(title="Stream Arena API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
