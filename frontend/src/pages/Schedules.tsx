@@ -35,7 +35,7 @@ interface Match {
 export default function Schedules() {
   const [schedules, setSchedules] = useState<Match[]>([]);
   const [selectedSport, setSelectedSport] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery] = useState('');
   const [selectedDateFilter, setSelectedDateFilter] = useState<'today' | 'tomorrow' | 'upcoming'>('today');
 
   useEffect(() => {
