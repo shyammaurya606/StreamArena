@@ -1,6 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
+
 import Home from "./pages/Home";
+import AuthPage from "./pages/AuthPage";
 import LiveMatches from "./pages/LiveMatches";
 import NewsFeed from "./pages/NewsFeed";
 import Schedules from "./pages/Schedules";
@@ -11,18 +15,24 @@ import ChannelDetail from "./pages/ChannelDetail";
 function App() {
   return (
     <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/live" element={<LiveMatches />} />
-          <Route path="/news" element={<NewsFeed />} />
-          <Route path="/schedules" element={<Schedules />} />
-          <Route path="/directory" element={<Directory />} />
-          <Route path="/platforms" element={<Platforms />} />
-          <Route path="/channel" element={<ChannelDetail />} />
-          <Route path="/channel/:id" element={<ChannelDetail />} />
-        </Routes>
-      </Layout>
+      <AuthProvider>
+        <Layout>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<AuthPage />} />
+
+            {/* Protected Routes */}
+            <Route path="/live" element={<ProtectedRoute><LiveMatches /></ProtectedRoute>} />
+            <Route path="/news" element={<ProtectedRoute><NewsFeed /></ProtectedRoute>} />
+            <Route path="/schedules" element={<ProtectedRoute><Schedules /></ProtectedRoute>} />
+            <Route path="/directory" element={<ProtectedRoute><Directory /></ProtectedRoute>} />
+            <Route path="/platforms" element={<ProtectedRoute><Platforms /></ProtectedRoute>} />
+            <Route path="/channel" element={<ProtectedRoute><ChannelDetail /></ProtectedRoute>} />
+            <Route path="/channel/:id" element={<ProtectedRoute><ChannelDetail /></ProtectedRoute>} />
+          </Routes>
+        </Layout>
+      </AuthProvider>
     </Router>
   );
 }

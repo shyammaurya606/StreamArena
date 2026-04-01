@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Layout({ children }: { children: ReactNode }) {
   const location = useLocation();
+  const { currentUser, logout } = useAuth();
 
   const getNavLinkClass = (path: string) => {
     return `font-headline tracking-tight font-bold uppercase text-sm transition-colors ${
@@ -45,9 +47,36 @@ export default function Layout({ children }: { children: ReactNode }) {
             <button className="p-2 text-slate-600 hover:text-red-600 active:scale-95 duration-150 transition-all">
               <span className="material-symbols-outlined">notifications</span>
             </button>
-            <button className="p-2 text-slate-600 hover:text-red-600 active:scale-95 duration-150 transition-all">
-              <span className="material-symbols-outlined">account_circle</span>
-            </button>
+            {currentUser ? (
+              <div className="relative group">
+                <button className="flex items-center gap-2 p-1.5 rounded-full hover:bg-surface-container-high transition-colors">
+                  {currentUser.photoURL ? (
+                    <img src={currentUser.photoURL} alt="Profile" className="w-8 h-8 rounded-full border-2 border-transparent group-hover:border-red-600 transition-colors object-cover" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center font-headline font-black text-sm">
+                      {(currentUser.displayName || currentUser.email || "U").charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                </button>
+                {/* Dropdown */}
+                <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-outline-variant/10 shadow-[0_10px_40px_rgba(0,0,0,0.12)] rounded-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all pointer-events-none group-hover:pointer-events-auto z-50 origin-top-right scale-95 group-hover:scale-100">
+                  <div className="px-4 py-3 border-b border-outline-variant/10">
+                    <p className="text-[10px] text-slate-400 uppercase tracking-widest font-label mb-0.5">Signed in as</p>
+                    <p className="font-bold text-sm text-slate-900 truncate">{currentUser.displayName || currentUser.email}</p>
+                  </div>
+                  <button
+                    onClick={() => logout()}
+                    className="w-full text-left px-4 py-2.5 text-sm font-headline uppercase tracking-widest text-slate-600 hover:bg-slate-50 hover:text-red-600 transition-colors flex items-center gap-2"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">logout</span> Sign Out
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <Link to="/login" className="bg-red-600 text-white font-headline font-bold text-[11px] uppercase tracking-widest px-5 py-2.5 rounded-xl hover:bg-red-700 transition-colors shadow-sm whitespace-nowrap ml-1">
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </nav>
