@@ -130,7 +130,7 @@ export default function Home() {
       <section className="py-16 bg-surface-container-low">
         <div className="max-w-screen-2xl mx-auto px-6">
           <div className="mb-10">
-            <h2 className="text-4xl font-headline font-black tracking-tighter uppercase">Browse by Category</h2>
+            <h2 className="text-4xl font-headline font-black tracking-tighter uppercase">Browse by Schedule</h2>
             <p className="text-on-surface-variant mt-2 font-body">Filter through our massive database of sports broadcasts worldwide.</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">

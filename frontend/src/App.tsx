@@ -11,6 +11,8 @@ import Schedules from "./pages/Schedules";
 import Directory from "./pages/Directory";
 import Platforms from "./pages/Platforms";
 import ChannelDetail from "./pages/ChannelDetail";
+import WatchPage from "./pages/WatchPage";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<AuthPage />} />
+            <Route path="/about" element={<About />} />
 
             {/* Protected Routes */}
             <Route path="/live" element={<ProtectedRoute><LiveMatches /></ProtectedRoute>} />
@@ -28,8 +31,8 @@ function App() {
             <Route path="/schedules" element={<ProtectedRoute><Schedules /></ProtectedRoute>} />
             <Route path="/directory" element={<ProtectedRoute><Directory /></ProtectedRoute>} />
             <Route path="/platforms" element={<ProtectedRoute><Platforms /></ProtectedRoute>} />
-            <Route path="/channel" element={<ProtectedRoute><ChannelDetail /></ProtectedRoute>} />
             <Route path="/channel/:id" element={<ProtectedRoute><ChannelDetail /></ProtectedRoute>} />
+            <Route path="/watch/:id" element={<ProtectedRoute><WatchPage /></ProtectedRoute>} />
           </Routes>
         </Layout>
       </AuthProvider>

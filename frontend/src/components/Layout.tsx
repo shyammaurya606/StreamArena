@@ -30,6 +30,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                <Link to="/live" className={getNavLinkClass("/live")}>Live Now</Link>
               <Link to="/schedules" className={getNavLinkClass("/schedules")}>Schedules</Link>
               <Link to="/platforms" className={getNavLinkClass("/platforms")}>Categories</Link>
+              <Link to="/about" className={getNavLinkClass("/about")}>About</Link>
             </div>
           </div>
           <div className="flex items-center gap-4">
