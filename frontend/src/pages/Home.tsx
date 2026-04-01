@@ -163,7 +163,10 @@ export default function Home() {
               <div className="absolute bottom-4 left-4"><h3 className="text-white font-headline font-bold text-lg uppercase italic">Motorsports</h3></div>
             </div>
             <div className="bg-surface-container-lowest rounded-xl overflow-hidden group relative h-36 sm:h-full min-h-[144px]">
-              <img alt="Golf" className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?auto=format&fit=crop&w=500&q=80" />
+
+             <img alt="Golf" className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?auto=format&fit=crop&w=500&q=80" />
+
+
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
               <div className="absolute bottom-4 left-4"><h3 className="text-white font-headline font-bold text-lg uppercase italic">Golf</h3></div>
             </div>
