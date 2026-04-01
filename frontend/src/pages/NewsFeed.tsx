@@ -1,23 +1,102 @@
+import { useState, useEffect } from "react";
+
+interface Article {
+  title: string;
+  description: string;
+  url: string;
+  urlToImage: string;
+  publishedAt: string;
+  source_name: string;
+}
+
 export default function NewsFeed() {
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("sports");
+
+  const fetchNews = async (query?: string) => {
+    setLoading(true);
+    try {
+      // If query is "sports" (All News), we don't send a q param to get Top Headlines
+      const url = query && query !== "sports" 
+        ? `http://localhost:8000/api/news?q=${query}` 
+        : `http://localhost:8000/api/news`;
+      
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.articles) {
+        setArticles(data.articles);
+      } else {
+        setArticles([]);
+      }
+    } catch (error) {
+      console.error("Error fetching news:", error);
+      setArticles([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNews(activeTab);
+  }, [activeTab]);
+
+  const categories = [
+    { id: "sports", label: "All News" },
+    { id: "football", label: "Football" },
+    { id: "motorsports", label: "Motorsports" },
+    { id: "tennis", label: "Tennis" },
+    { id: "basketball", label: "NBA" },
+    { id: "cricket", label: "Cricket" },
+  ];
+
+  const featured = articles[0];
+  const list = articles.slice(1);
+
   return (
     <>
       <section className="max-w-screen-2xl mx-auto px-6 mb-14">
-        <div className="relative group overflow-hidden rounded-xl bg-surface-container-low h-[540px] flex items-end">
-          <img alt="Breaking Sports" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUpoc3qmw9JJFc-3b_PxlbtmEdBwo3vreV09Y8-SLnFpQ8dlP9pIK9MOlcUFcwEVVvz385H2jjlqwYNKtDyWKRWes67JbZ_6LY5qS-X-DdySgrA__5WTxAfNvIKmLhVbmz1YHnJlH_2wHxxiEWsuWzDesGEoFeei0Ckw9IhRd_Jkzs89spJPuJdn80WURmx1cOF1Q2hYSM3fXrQTRFhQuE7K1DNBJ572tMV8CXPCrnD-iuO5vpCrroydGpFYJuvDnSkcbvyExQ91s" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-          <div className="relative p-8 md:p-14 z-10 w-full md:w-2/3">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="bg-red-600 text-white font-label text-xs font-bold px-3 py-1 tracking-widest uppercase rounded-sm">Breaking</span>
-              <span className="text-white/70 font-label text-xs uppercase tracking-widest">Basketball • 12 mins ago</span>
-            </div>
-            <h1 className="text-white font-headline text-4xl md:text-6xl font-bold leading-[0.9] tracking-tighter mb-6">
-              LEGACY DEFINED: CHAMPIONSHIP FINALS SET FOR HISTORIC SHOWDOWN
-            </h1>
-            <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 font-headline text-base font-bold flex items-center gap-3 transition-all active:scale-95 rounded-lg">
-              READ FULL REPORT <span className="material-symbols-outlined">arrow_forward</span>
-            </button>
+        {loading ? (
+          <div className="w-full h-[540px] bg-surface-container-low rounded-xl animate-pulse flex items-center justify-center">
+            <span className="text-on-surface-variant font-headline font-bold uppercase tracking-widest opacity-20 text-4xl italic">Loading Headlines</span>
           </div>
-        </div>
+        ) : featured ? (
+          <div className="relative group overflow-hidden rounded-xl bg-surface-container-low h-[540px] flex items-end">
+            <img 
+              alt={featured.title} 
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+              src={featured.urlToImage || "https://images.unsplash.com/photo-1504450758481-7338ba7524ad?auto=format&fit=crop&w=1200&q=80"} 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+            <div className="relative p-8 md:p-14 z-10 w-full md:w-2/3">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="bg-red-600 text-white font-label text-xs font-bold px-3 py-1 tracking-widest uppercase rounded-sm">
+                  {activeTab === "sports" ? "Breaking" : activeTab}
+                </span>
+                <span className="text-white/70 font-label text-xs uppercase tracking-widest">
+                  {featured.source_name} • {new Date(featured.publishedAt).toLocaleDateString()}
+                </span>
+              </div>
+              <h1 className="text-white font-headline text-4xl md:text-6xl font-bold leading-[0.9] tracking-tighter mb-6 uppercase">
+                {featured.title}
+              </h1>
+              <a 
+                href={featured.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 font-headline text-base font-bold inline-flex items-center gap-3 transition-all active:scale-95 rounded-lg"
+              >
+                READ FULL REPORT <span className="material-symbols-outlined">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+        ) : (
+          <div className="w-full h-[540px] bg-surface-container-low rounded-xl flex flex-col items-center justify-center text-center p-10">
+            <span className="material-symbols-outlined text-6xl text-outline mb-4">newspaper</span>
+            <h2 className="text-3xl font-headline font-black uppercase text-on-surface">No Featured Story</h2>
+            <p className="text-on-surface-variant max-w-md mx-auto mt-2">We couldn't find a top story for this category right now. Try another filter!</p>
+          </div>
+        )}
       </section>
 
       {/* FILTERS + CONTENT */}
@@ -26,58 +105,72 @@ export default function NewsFeed() {
           {/* MAIN FEED */}
           <div className="lg:w-2/3">
             <div className="flex gap-3 mb-10 overflow-x-auto pb-3 scrollbar-hide">
-              <button className="bg-primary text-white px-5 py-2 rounded-md font-label text-sm font-medium whitespace-nowrap">All News</button>
-              <button className="bg-surface-container-high text-on-surface px-5 py-2 rounded-md font-label text-sm font-medium hover:bg-surface-container-highest transition-colors whitespace-nowrap">Football</button>
-              <button className="bg-surface-container-high text-on-surface px-5 py-2 rounded-md font-label text-sm font-medium hover:bg-surface-container-highest transition-colors whitespace-nowrap">Motorsports</button>
-              <button className="bg-surface-container-high text-on-surface px-5 py-2 rounded-md font-label text-sm font-medium hover:bg-surface-container-highest transition-colors whitespace-nowrap">Tennis</button>
-              <button className="bg-surface-container-high text-on-surface px-5 py-2 rounded-md font-label text-sm font-medium hover:bg-surface-container-highest transition-colors whitespace-nowrap">NBA</button>
-              <button className="bg-surface-container-high text-on-surface px-5 py-2 rounded-md font-label text-sm font-medium hover:bg-surface-container-highest transition-colors whitespace-nowrap">Cricket</button>
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveTab(cat.id)}
+                  className={`${
+                    activeTab === cat.id
+                      ? "bg-primary text-white" 
+                      : "bg-surface-container-high text-on-surface hover:bg-surface-container-highest"
+                  } px-5 py-2 rounded-md font-label text-sm font-medium transition-colors whitespace-nowrap uppercase tracking-wider`}
+                >
+                  {cat.label}
+                </button>
+              ))}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Card 1 */}
-              <div className="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:-translate-y-1 transition-all duration-300">
-                <div className="relative h-56 overflow-hidden">
-                  <img alt="F1 Update" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ6aZwHyphThQEs5-MlMCkRxcqI54VbE_urz0vcQrHoefwhRry_AAlsfcOqtRJKJjSyMixEp4qmy193RdYcfjBomcu57DFKM5bvw_NzBXavR2x8uF-6WJZAQ2ZUeNn1mNpoQvZQt0TY12IOMcsxNu0_wH_ER8PgETV2AZy0yJJT2tDbRslhcgAu9ihdiPU-quzKULWEp0e1LhzjhaSje7hvxd6VeO9BD7Qm0Nk6u_m44Zs1c6iI1IfxVdnm_o3gZJB9oyTzhIvJOg" />
-                  <span className="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">Motorsports</span>
-                </div>
-                <div className="p-6">
-                  <h3 className="font-headline text-xl font-bold leading-tight mb-3 group-hover:text-red-600 transition-colors">RED BULL REVEALS RADICAL SIDEPOD UPGRADES FOR MONACO</h3>
-                  <p className="text-on-surface-variant text-sm mb-3 line-clamp-2">The championship leaders have shocked the paddock with a bold aerodynamic redesign ahead of the season's most prestigious race.</p>
-                  <span className="text-outline text-[10px] font-label uppercase tracking-tighter">45 minutes ago • 4 min read</span>
-                </div>
-              </div>
-              {/* Card 2 */}
-              <div className="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:-translate-y-1 transition-all duration-300">
-                <div className="relative h-56 overflow-hidden">
-                  <img alt="Football News" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB70HVIXRJkmOqIasZ-DGR3CzdeGNUEQUwlarY7ATmqQT1DFvDYtrpxLcjODGciNwiGUk9Tw0ilRClrPaS_SLVJXlQKOmMnoFNrA6PUU1dqyw-8-i2vcuc7NrDx2cw0C6klnO6Bim7jlDbAJB31TefH3J0YMHUk_lAMiy1CW5f3_Y6uCNqcO6W-K1CdENyOfU-QeDUUJAM5TE_1YjfRwulcj1UTl-yGsh7EOijkkGAtxdOI-NTq4vd1T0Gg1XsEhda8Cu_NsJRAM34" />
-                  <span className="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">Football</span>
-                </div>
-                <div className="p-6">
-                  <h3 className="font-headline text-xl font-bold leading-tight mb-3 group-hover:text-red-600 transition-colors">TRANSFER BLAST: €120M BID REJECTED FOR RISING STAR</h3>
-                  <p className="text-on-surface-variant text-sm mb-3 line-clamp-2">Sources confirm that the opening bid for the teenage sensation has been dismissed as "insulting" by his current club.</p>
-                  <span className="text-outline text-[10px] font-label uppercase tracking-tighter">2 hours ago • 6 min read</span>
-                </div>
-              </div>
-              {/* Card 3 (Wide) */}
-              <div className="md:col-span-2 group flex flex-col md:flex-row bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:-translate-y-1 transition-all duration-300">
-                <div className="md:w-1/2 relative h-64 md:h-auto overflow-hidden">
-                  <img alt="Tennis" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4G7sLddr8rVHrzI-uT1lvXiTuBpfOm6aS3kyCup6RPpAF9To1zjNVOWcGnIGyHryCAyECvn6wkEuxz9Wud0HijEG2kr37p51cMRFZpADADJ3FW8UR0PnSUg5YbHAJvWRChwMav47zo29DJA4KyWldgh5a_kUTVzd-hDnvGVyMid9aArenJwtXYIVxHFvkx1ThXVYk__gZ46T80KoJXNiWYvslm9-WR8FgUZUb9M3t-tF0Z2eM8wOZVu5M2vnE8NpoH_ZSXGhM8SU" />
-                </div>
-                <div className="md:w-1/2 p-8 flex flex-col justify-center">
-                  <span className="text-red-600 text-xs font-bold uppercase tracking-widest mb-2">Tennis</span>
-                  <h3 className="font-headline text-2xl font-bold leading-tight mb-4 group-hover:text-red-600 transition-colors">CLAY COURT QUEEN: THE UNSTOPPABLE RUN CONTINUES</h3>
-                  <p className="text-on-surface-variant mb-5">Explore the technical adjustments and mental shift that led to a 25-match winning streak on the dirt.</p>
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden">
-                      <img alt="Author" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFHS6hl7Q9kMAwP5Om49MRcXkFTRcAeMCxrDjzUaySJJLC8_BUj1mbpB8G6X-WX2Dy2Xbmjf1hhvApREs5yKMxx1c5xD-uG0SWLGYud5a69cMSyEC4qy9m7a74BNpzARHVRdBXbBbbWEgJW6n2yz4WFLM5gQ-J3Lugg-ENjDYgvLrt4Jzm_SQHq2vspewH5dZsVfjH_q0swGQIRtQ-jKokA-kUTRxR7Z1MIHVFJOTw5yXivG72mi2a0hdjdJ9r711ceHHsqSAMO5g" />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 text-sm">
+              {loading ? (
+                Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="bg-surface-container-low rounded-xl h-[400px] animate-pulse"></div>
+                ))
+              ) : list.length > 0 ? (
+                list.map((article, idx) => (
+                  <div 
+                    key={idx} 
+                    className={`group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:-translate-y-1 transition-all duration-300 ${idx === 2 ? 'md:col-span-2 flex flex-col md:flex-row' : ''}`}
+                  >
+                    <div className={`${idx === 2 ? 'md:w-1/2' : ''} relative h-56 md:h-auto overflow-hidden bg-surface-container-high`}>
+                      <img 
+                        alt={article.title} 
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                        src={article.urlToImage || "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=500&q=80"} 
+                      />
+                      <span className="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">
+                        {article.source_name}
+                      </span>
                     </div>
-                    <div>
-                      <p className="text-sm font-bold">Sarah Jenkins</p>
-                      <p className="text-[10px] text-outline uppercase tracking-wider">Senior Editor</p>
+                    <div className={`${idx === 2 ? 'md:w-1/2 p-8' : 'p-6'} flex flex-col justify-center`}>
+                      <h3 className={`${idx === 2 ? 'text-2xl' : 'text-xl'} font-headline font-bold leading-tight mb-3 group-hover:text-red-600 transition-colors uppercase line-clamp-3`}>
+                        {article.title}
+                      </h3>
+                      <p className="text-on-surface-variant text-sm mb-4 line-clamp-2">
+                        {article.description}
+                      </p>
+                      <div className="mt-auto flex items-center justify-between">
+                        <span className="text-outline text-[10px] font-label uppercase tracking-tighter">
+                          {new Date(article.publishedAt).toLocaleDateString()}
+                        </span>
+                        <a 
+                          href={article.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-red-600 text-xs font-bold uppercase tracking-widest hover:underline"
+                        >
+                          READ MORE
+                        </a>
+                      </div>
                     </div>
                   </div>
+                ))
+              ) : (
+                <div className="col-span-2 text-center py-20 bg-surface-container-low rounded-xl border-2 border-dashed border-outline-variant/30">
+                  <span className="material-symbols-outlined text-4xl text-outline-variant mb-2">search_off</span>
+                  <p className="text-on-surface-variant italic font-label">No news articles found for "{activeTab}".</p>
+                  <button onClick={() => setActiveTab('sports')} className="mt-4 text-primary text-xs font-bold uppercase tracking-widest hover:underline">Return to All News</button>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -93,21 +186,21 @@ export default function NewsFeed() {
                   <div className="group flex gap-4 cursor-pointer">
                     <span className="font-headline text-4xl font-black text-surface-container-highest group-hover:text-red-600 transition-colors italic">01</span>
                     <div>
-                      <h4 className="font-bold text-sm mb-1 leading-snug group-hover:underline uppercase tracking-tight">Mbappe's Madrid Move: Final Details Leaked</h4>
+                      <h4 className="font-bold text-sm mb-1 leading-snug group-hover:underline uppercase tracking-tight">Champions League: Knockout Phase Preview</h4>
                       <span className="text-[10px] text-outline uppercase font-label">18.4K Readers</span>
                     </div>
                   </div>
                   <div className="group flex gap-4 cursor-pointer">
                     <span className="font-headline text-4xl font-black text-surface-container-highest group-hover:text-red-600 transition-colors italic">02</span>
                     <div>
-                      <h4 className="font-bold text-sm mb-1 leading-snug group-hover:underline uppercase tracking-tight">LeBron James Contemplates Retirement After Playoff Exit</h4>
+                      <h4 className="font-bold text-sm mb-1 leading-snug group-hover:underline uppercase tracking-tight">Formula 1: New Regulations for 2026 Season</h4>
                       <span className="text-[10px] text-outline uppercase font-label">15.2K Readers</span>
                     </div>
                   </div>
                   <div className="group flex gap-4 cursor-pointer">
                     <span className="font-headline text-4xl font-black text-surface-container-highest group-hover:text-red-600 transition-colors italic">03</span>
                     <div>
-                      <h4 className="font-bold text-sm mb-1 leading-snug group-hover:underline uppercase tracking-tight">IPL 2024: The Mid-Season Power Rankings</h4>
+                      <h4 className="font-bold text-sm mb-1 leading-snug group-hover:underline uppercase tracking-tight">NBA Trades: Deadline Day Highlights</h4>
                       <span className="text-[10px] text-outline uppercase font-label">12.9K Readers</span>
                     </div>
                   </div>
