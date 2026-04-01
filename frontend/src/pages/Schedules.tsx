@@ -51,8 +51,8 @@ export default function Schedules() {
     } else {
       dateStr = `?date=${now.toISOString().split('T')[0]}`;
     }
-    
-    fetch(`http://localhost:8000/api/schedules${dateStr}`)
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+    fetch(`${API_BASE_URL}/api/schedules${dateStr}`)
       .then(res => res.json())
       .then(data => setSchedules(data))
       .catch(console.error);

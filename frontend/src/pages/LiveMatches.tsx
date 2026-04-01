@@ -25,7 +25,8 @@ export default function LiveMatches() {
   const [matches, setMatches] = useState<Match[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/matches/live')
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+    fetch(`${API_BASE_URL}/api/matches/live`)
       .then(res => res.json())
       .then(data => setMatches(data))
       .catch(console.error);

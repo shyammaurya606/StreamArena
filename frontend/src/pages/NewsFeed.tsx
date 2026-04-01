@@ -18,9 +18,10 @@ export default function NewsFeed() {
     setLoading(true);
     try {
       // If query is "sports" (All News), we don't send a q param to get Top Headlines
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
       const url = query && query !== "sports" 
-        ? `http://localhost:8000/api/news?q=${query}` 
-        : `http://localhost:8000/api/news`;
+        ? `${API_BASE_URL}/api/news?q=${query}` 
+        : `${API_BASE_URL}/api/news`;
       
       const response = await fetch(url);
       const data = await response.json();
