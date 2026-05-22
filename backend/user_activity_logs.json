@@ -1,0 +1,192 @@
+[
+    {
+        "user_email": "Anonymous",
+        "event": "page_view",
+        "path": "/news",
+        "target": null,
+        "platform": "Windows",
+        "duration": 0,
+        "timestamp": "2026-05-21T11:14:12.852Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "Anonymous",
+        "event": "page_view",
+        "path": "/news",
+        "target": null,
+        "platform": "Windows",
+        "duration": 0,
+        "timestamp": "2026-05-21T11:14:12.853Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "page_view",
+        "path": "/news",
+        "target": null,
+        "platform": "Windows",
+        "duration": 0,
+        "timestamp": "2026-05-21T11:14:13.435Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "heartbeat",
+        "path": "/news",
+        "target": null,
+        "platform": "Windows",
+        "duration": 10,
+        "timestamp": "2026-05-21T14:11:58.341Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "Anonymous",
+        "event": "page_view",
+        "path": "/news",
+        "target": null,
+        "platform": "Windows",
+        "duration": 0,
+        "timestamp": "2026-05-21T14:12:07.328Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "Anonymous",
+        "event": "page_view",
+        "path": "/news",
+        "target": null,
+        "platform": "Windows",
+        "duration": 0,
+        "timestamp": "2026-05-21T14:12:07.331Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "page_view",
+        "path": "/news",
+        "target": null,
+        "platform": "Windows",
+        "duration": 0,
+        "timestamp": "2026-05-21T14:12:07.853Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "click",
+        "path": "/news",
+        "target": "Home",
+        "platform": "Windows",
+        "duration": 0,
+        "timestamp": "2026-05-21T14:21:47.586Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "click",
+        "path": "/",
+        "target": "close",
+        "platform": "Windows",
+        "duration": 0,
+        "timestamp": "2026-05-21T14:21:52.303Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "heartbeat",
+        "path": "/",
+        "target": null,
+        "platform": "Windows",
+        "duration": 10,
+        "timestamp": "2026-05-21T14:21:57.640Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "heartbeat",
+        "path": "/",
+        "target": null,
+        "platform": "Windows",
+        "duration": 10,
+        "timestamp": "2026-05-21T14:22:07.635Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "click",
+        "path": "/",
+        "target": "send",
+        "platform": "Windows",
+        "duration": 0,
+        "timestamp": "2026-05-21T14:22:13.152Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "heartbeat",
+        "path": "/",
+        "target": null,
+        "platform": "Windows",
+        "duration": 10,
+        "timestamp": "2026-05-21T14:22:17.640Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "heartbeat",
+        "path": "/",
+        "target": null,
+        "platform": "Windows",
+        "duration": 10,
+        "timestamp": "2026-05-21T14:22:27.635Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "heartbeat",
+        "path": "/",
+        "target": null,
+        "platform": "Windows",
+        "duration": 10,
+        "timestamp": "2026-05-21T14:22:37.640Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "click",
+        "path": "/",
+        "target": "send",
+        "platform": "Windows",
+        "duration": 0,
+        "timestamp": "2026-05-21T14:22:42.776Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "heartbeat",
+        "path": "/",
+        "target": null,
+        "platform": "Windows",
+        "duration": 10,
+        "timestamp": "2026-05-21T14:22:47.640Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "heartbeat",
+        "path": "/",
+        "target": null,
+        "platform": "Windows",
+        "duration": 10,
+        "timestamp": "2026-05-21T14:22:57.635Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    },
+    {
+        "user_email": "shyammaurya1808@gmail.com",
+        "event": "heartbeat",
+        "path": "/",
+        "target": null,
+        "platform": "Windows",
+        "duration": 10,
+        "timestamp": "2026-05-21T14:23:07.634Z",
+        "session_id": "8w9alb38xy8lqfu0znu3xo"
+    }
+]

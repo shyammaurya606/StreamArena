@@ -9,8 +9,18 @@ interface Article {
   source_name: string;
 }
 
+interface PinnedNews {
+  id: string;
+  title: string;
+  url: string;
+  image?: string;
+  pinned: boolean;
+  hidden: boolean;
+}
+
 export default function NewsFeed() {
   const [articles, setArticles] = useState<Article[]>([]);
+  const [pinnedNews, setPinnedNews] = useState<PinnedNews[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("sports");
 
@@ -41,6 +51,18 @@ export default function NewsFeed() {
   useEffect(() => {
     fetchNews(activeTab);
   }, [activeTab]);
+
+  useEffect(() => {
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+    fetch(`${API_BASE_URL}/api/admin/pinned-news`)
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setPinnedNews(data.filter(n => n.pinned && !n.hidden));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const categories = [
     { id: "sports", label: "All News" },
@@ -178,33 +200,27 @@ export default function NewsFeed() {
           {/* SIDEBAR */}
           <aside className="lg:w-1/3">
             <div className="sticky top-28 space-y-8">
-              {/* Trending */}
+              {/* Pinned News */}
               <div>
                 <h2 className="font-headline text-2xl font-black mb-6 flex items-center gap-2">
-                  <span className="w-1.5 h-8 bg-red-600 rounded-full"></span> TRENDING TOPICS
+                  <span className="w-1.5 h-8 bg-red-600 rounded-full"></span> PINNED HEADLINES
                 </h2>
                 <div className="space-y-5">
-                  <div className="group flex gap-4 cursor-pointer">
-                    <span className="font-headline text-4xl font-black text-surface-container-highest group-hover:text-red-600 transition-colors italic">01</span>
-                    <div>
-                      <h4 className="font-bold text-sm mb-1 leading-snug group-hover:underline uppercase tracking-tight">Champions League: Knockout Phase Preview</h4>
-                      <span className="text-[10px] text-outline uppercase font-label">18.4K Readers</span>
-                    </div>
-                  </div>
-                  <div className="group flex gap-4 cursor-pointer">
-                    <span className="font-headline text-4xl font-black text-surface-container-highest group-hover:text-red-600 transition-colors italic">02</span>
-                    <div>
-                      <h4 className="font-bold text-sm mb-1 leading-snug group-hover:underline uppercase tracking-tight">Formula 1: New Regulations for 2026 Season</h4>
-                      <span className="text-[10px] text-outline uppercase font-label">15.2K Readers</span>
-                    </div>
-                  </div>
-                  <div className="group flex gap-4 cursor-pointer">
-                    <span className="font-headline text-4xl font-black text-surface-container-highest group-hover:text-red-600 transition-colors italic">03</span>
-                    <div>
-                      <h4 className="font-bold text-sm mb-1 leading-snug group-hover:underline uppercase tracking-tight">NBA Trades: Deadline Day Highlights</h4>
-                      <span className="text-[10px] text-outline uppercase font-label">12.9K Readers</span>
-                    </div>
-                  </div>
+                  {pinnedNews.length > 0 ? (
+                    pinnedNews.map((news, idx) => (
+                      <a href={news.url} target="_blank" rel="noopener noreferrer" key={news.id} className="group flex gap-4 cursor-pointer">
+                        <span className="font-headline text-4xl font-black text-surface-container-highest group-hover:text-red-600 transition-colors italic">
+                          {String(idx + 1).padStart(2, '0')}
+                        </span>
+                        <div>
+                          <h4 className="font-bold text-sm mb-1 leading-snug group-hover:underline uppercase tracking-tight">{news.title}</h4>
+                          <span className="text-[10px] text-red-600 uppercase font-label font-bold tracking-widest">Featured</span>
+                        </div>
+                      </a>
+                    ))
+                  ) : (
+                    <p className="text-on-surface-variant text-sm italic font-label">No featured headlines at this time.</p>
+                  )}
                 </div>
               </div>
               {/* Mini Scoreboard */}

@@ -1,11 +1,40 @@
+import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { CHANNELS } from "../data/channels";
+
+const API = "http://localhost:8000";
+
+interface Channel {
+  id: string; short_name: string; full_name: string; tagline: string;
+  established: string; category: string; country: string; hero_image: string;
+  description: string; sports: string[]; watch_url: string;
+  regions: { country: string; note: string }[];
+  schedule: { time: string; category: string; title: string; highlight?: boolean }[];
+  affiliates: { id: string; name: string; subtitle: string }[];
+}
 
 export default function ChannelDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [channel, setChannel] = useState<Channel | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const channel = id ? CHANNELS[id] : null;
+  useEffect(() => {
+    if (!id) return;
+    setLoading(true);
+    fetch(`${API}/api/channels/${id}`)
+      .then(r => { if (!r.ok) throw new Error("Not found"); return r.json(); })
+      .then(setChannel)
+      .catch(() => setChannel(null))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   if (!channel) {
     return (
@@ -39,9 +68,9 @@ export default function ChannelDetail() {
       <section className="relative overflow-hidden rounded-xl bg-primary min-h-[380px] flex items-end p-8 md:p-12 mb-8 group">
         <div className="absolute inset-0 z-0">
           <img
-            alt={channel.fullName}
+            alt={channel.full_name}
             className="w-full h-full object-cover opacity-60 mix-blend-luminosity group-hover:scale-105 transition-transform duration-700"
-            src={channel.heroImage}
+            src={channel.hero_image}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
           <div className="absolute inset-0 bg-red-900/20 mix-blend-color-burn"></div>
@@ -51,7 +80,7 @@ export default function ChannelDetail() {
           <div className="flex items-center gap-8">
             <div className="w-32 h-32 md:w-40 md:h-40 bg-white rounded-xl shadow-2xl flex items-center justify-center p-4 shrink-0 border-4 border-white/10">
               <span className="font-headline font-black text-3xl md:text-4xl text-black tracking-tighter text-center leading-none">
-                {channel.shortName}
+                {channel.short_name}
               </span>
             </div>
             <div>
@@ -64,7 +93,7 @@ export default function ChannelDetail() {
                 </span>
               </div>
               <h1 className="font-headline text-4xl md:text-6xl font-black text-white leading-tight uppercase tracking-tighter max-w-3xl">
-                {channel.fullName}
+                {channel.full_name}
               </h1>
               <p className="text-white/60 font-label text-sm mt-2 tracking-widest uppercase">{channel.tagline}</p>
             </div>

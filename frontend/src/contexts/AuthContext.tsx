@@ -36,6 +36,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
       setCurrentUser(user);
       setLoading(false);
+      
+      // Sync user to backend so Admin can view/manage them
+      if (user) {
+        fetch("http://localhost:8000/api/users/sync", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: user.uid,
+            email: user.email || "",
+            display_name: user.displayName || "",
+            photo_url: user.photoURL || "",
+            provider: user.providerData[0]?.providerId || "unknown",
+            created_at: user.metadata.creationTime || new Date().toISOString(),
+            last_sign_in: user.metadata.lastSignInTime || new Date().toISOString()
+          })
+        }).catch(() => {});
+      }
     });
     return unsubscribe;
   }, []);
