@@ -2,7 +2,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 // Add your admin emails here
-const ADMIN_EMAILS = ["admin@streamarena.com", "amankushwahamau@gmail.com", "shyammaurya1808@gmail.com"];
+const ADMIN_EMAILS = ["admin@streamarena.com", "aman.696988@gmail.com", "shyammaurya1808@gmail.com"];
 
 export default function AdminRoute({ children }: { children: JSX.Element }) {
   const { currentUser, loading } = useAuth();
