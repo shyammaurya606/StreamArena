@@ -1,10 +1,93 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import Chatbot from "./Chatbot";
+
+const ADMIN_EMAILS = ["admin@streamarena.com", "shyammaurya606@gmail.com"];
 
 export default function Layout({ children }: { children: ReactNode }) {
   const location = useLocation();
   const { currentUser, logout } = useAuth();
+  const isAdmin = ADMIN_EMAILS.includes(currentUser?.email ?? "");
+
+  // Telemetry tracking logic
+  useEffect(() => {
+    const email = currentUser?.email || "Anonymous";
+    const path = location.pathname;
+    const platform = (() => {
+      const ua = window.navigator.userAgent.toLowerCase();
+      if (ua.includes("android")) return "Android";
+      if (ua.includes("iphone") || ua.includes("ipad")) return "iOS";
+      if (ua.includes("win")) return "Windows";
+      if (ua.includes("mac")) return "macOS";
+      if (ua.includes("linux")) return "Linux";
+      return "WebBrowser";
+    })();
+
+    // Retrieve or generate a session ID for the current browser session
+    let sessionId = sessionStorage.getItem("stream_arena_session_id");
+    if (!sessionId) {
+      sessionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      sessionStorage.setItem("stream_arena_session_id", sessionId);
+    }
+
+    const trackEvent = (event: string, target?: string, duration: number = 0) => {
+      fetch("http://localhost:8000/api/analytics/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_email: email,
+          event,
+          path,
+          target,
+          platform,
+          duration,
+          timestamp: new Date().toISOString(),
+          session_id: sessionId
+        })
+      }).catch(() => {});
+    };
+
+    // 1. Page view
+    trackEvent("page_view");
+
+    // 2. Click tracking
+    const handleGlobalClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      let el: HTMLElement | null = target;
+      let label = "";
+      while (el && el !== document.body) {
+        if (el.getAttribute("data-telemetry")) {
+          label = el.getAttribute("data-telemetry") || "";
+          break;
+        }
+        const tagName = el.tagName.toLowerCase();
+        if (tagName === "a" || tagName === "button" || el.getAttribute("role") === "button") {
+          label = el.textContent?.trim().slice(0, 40) || "";
+          break;
+        }
+        el = el.parentElement;
+      }
+      if (label) {
+        trackEvent("click", label);
+      }
+    };
+
+    document.addEventListener("click", handleGlobalClick);
+
+    // 3. Heartbeat tracking (every 10s)
+    const interval = setInterval(() => {
+      if (document.visibilityState === "visible") {
+        trackEvent("heartbeat", undefined, 10);
+      }
+    }, 10000);
+
+    return () => {
+      document.removeEventListener("click", handleGlobalClick);
+      clearInterval(interval);
+    };
+  }, [location.pathname, currentUser]);
+
 
   const getNavLinkClass = (path: string) => {
     return `font-headline tracking-tight font-bold uppercase text-sm transition-colors ${
@@ -31,6 +114,11 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Link to="/schedules" className={getNavLinkClass("/schedules")}>Schedules</Link>
               <Link to="/platforms" className={getNavLinkClass("/platforms")}>Categories</Link>
               <Link to="/about" className={getNavLinkClass("/about")}>About</Link>
+              {isAdmin && (
+                <Link to="/admin" className={`font-headline tracking-tight font-bold uppercase text-sm transition-colors flex items-center gap-1 ${location.pathname.startsWith("/admin") ? "text-red-600 border-b-2 border-red-600 pb-0.5" : "text-red-500 hover:text-red-600 pb-0.5"}`}>
+                  <span className="material-symbols-outlined text-base">shield_person</span> Admin
+                </Link>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -163,6 +251,9 @@ export default function Layout({ children }: { children: ReactNode }) {
           <span className="font-label text-[10px] font-semibold uppercase tracking-wider mt-1">Categories</span>
         </Link>
       </nav>
+
+      {/* CHATBOT ASSISTANT */}
+      <Chatbot />
     </div>
   );
 }

@@ -1,4 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
+const API = "http://localhost:8000";
+
+interface Channel {
+  id: string; short_name: string; full_name: string; category: string;
+  country: string; hero_image: string; sports: string[]; viewers: number;
+  is_featured: boolean; tagline: string;
+  schedule: { time: string; category: string; title: string; highlight?: boolean }[];
+}
+
+// Maps DB country name → static countries[] id
+const COUNTRY_ID_MAP: Record<string, string> = {
+  "United Kingdom": "UK", "United States": "USA", "France": "France",
+  "India": "India", "Australia": "Australia", "Germany": "Germany", "Japan": "Japan",
+};
+
+// Converts DB channels for a country into the 7 bento slots the layout expects
+function buildSlots(chs: Channel[]) {
+  const pad = (i: number) => chs[i] || chs[0];
+  const sports = (ch: Channel) => (ch.sports || []).slice(0, 3);
+  return [
+    { // Slot 0 — Featured (image + tags + action)
+      name: pad(0).full_name, image: pad(0).hero_image,
+      partnerLabel: pad(0).category,
+      description: pad(0).tagline || `${pad(0).full_name} — ${pad(0).country}'s premier sports network.`,
+      tags: sports(pad(0)), action: `View ${pad(0).short_name} Channel`, id: pad(0).id,
+    },
+    { // Slot 1 — Standard (thumbnail circle)
+      name: pad(1).full_name, thumbnail: pad(1).hero_image,
+      description: `${pad(1).tagline || pad(1).full_name} — delivering live sports to millions of viewers.`,
+      action: "Explore Channels", id: pad(1).id,
+    },
+    { // Slot 2 — Editorial (icon + label)
+      name: pad(2).full_name,
+      label: pad(2).category,
+      icon: "live_tv",
+      description: `${pad(2).tagline || pad(2).full_name} — covering ${(pad(2).sports || []).join(", ")}.`,
+      action: "View Schedule", id: pad(2).id,
+    },
+    { // Slot 3 — Kinetic/Visual (image right)
+      name: pad(3).full_name, image: pad(3).hero_image,
+      description: `${pad(3).tagline || pad(3).full_name} — live sports broadcasting.`,
+      metadata: `${Math.round(pad(3).viewers / 1000)}K Viewers`, id: pad(3).id,
+    },
+    { // Slot 4 — Dark subscription
+      name: pad(Math.min(4, chs.length - 1)).full_name,
+      label: pad(Math.min(4, chs.length - 1)).category,
+      description: pad(Math.min(4, chs.length - 1)).tagline || "Premium sports network.",
+      action: "Subscribe Now", id: pad(Math.min(4, chs.length - 1)).id,
+    },
+    { // Slot 5 — Minimalist
+      name: pad(Math.min(5, chs.length - 1)).full_name,
+      icon: "sports",
+      description: `Covering ${(pad(Math.min(5, chs.length - 1)).sports || []).join(", ") || "major sports events"}.`,
+      action: "Learn More", id: pad(Math.min(5, chs.length - 1)).id,
+    },
+    { // Slot 6 — Multi-stream
+      name: pad(Math.min(6, chs.length - 1)).full_name,
+      description: pad(Math.min(6, chs.length - 1)).tagline || "Live & on-demand streaming.",
+      streams: `${Math.round(pad(Math.min(6, chs.length - 1)).viewers / 1000)}K Viewers`,
+      id: pad(Math.min(6, chs.length - 1)).id,
+    },
+  ];
+}
 
 const countries = [
   {
@@ -246,10 +311,36 @@ const countryDetails: Record<string, any> = {
 export default function Platforms() {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [dbChannels, setDbChannels] = useState<Channel[]>([]);
+
+  useEffect(() => {
+    fetch(`${API}/api/channels`)
+      .then(r => r.json())
+      .then(setDbChannels)
+      .catch(() => { });
+  }, []);
+
+  // Real channel count per country from DB
+  const countFor = (countryName: string) =>
+    dbChannels.filter(c => c.country === countryName).length;
+
+  // Channels for selected country
+  const selectedCountryName = selectedId
+    ? Object.entries(COUNTRY_ID_MAP).find(([, id]) => id === selectedId)?.[0] || selectedId
+    : null;
+  const selectedDbChannels = selectedCountryName
+    ? dbChannels.filter(c => c.country === selectedCountryName)
+    : [];
 
   if (selectedId) {
-    const detail = countryDetails[selectedId] || countryDetails["UK"];
-    const s = detail.slots;
+    const staticDetail = countryDetails[selectedId];
+    // Use DB channels if available, otherwise fall back to static slots
+    const liveSlots = selectedDbChannels.length >= 2 ? buildSlots(selectedDbChannels) : null;
+    const detail = staticDetail || countryDetails["UK"];
+    const s = liveSlots || detail.slots;
+    const liveCount = selectedDbChannels.length > 0
+      ? `${selectedDbChannels.length} Channels Live`
+      : detail.liveCount;
 
     return (
       <div className="bg-surface text-on-surface font-body selection:bg-surface-tint selection:text-on-primary min-h-screen">
@@ -278,7 +369,7 @@ export default function Platforms() {
               </div>
               <div className="flex items-center gap-3 bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/15">
                 <span className="w-3 h-3 rounded-full bg-surface-tint animate-pulse"></span>
-                <span className="font-label text-xs font-bold uppercase tracking-wider">{detail.liveCount}</span>
+                <span className="font-label text-xs font-bold uppercase tracking-wider">{liveCount}</span>
               </div>
             </div>
           </section>
@@ -309,15 +400,15 @@ export default function Platforms() {
                     {s[0].description}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-8">
-                    {s[0].tags.map((tag: string) => (
+                    {(s[0].tags || []).map((tag: string) => (
                       <span key={tag} className="px-3 py-1 bg-surface-container-high rounded text-[10px] font-bold uppercase tracking-wider font-label">{tag}</span>
                     ))}
                   </div>
                 </div>
-                <button className="w-full py-4 bg-primary-container text-on-primary font-headline font-bold uppercase tracking-wider rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 group/btn">
+                <Link to={`/channel/${s[0].id || ''}`} className="w-full py-4 bg-primary-container text-on-primary font-headline font-bold uppercase tracking-wider rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 group/btn">
                   {s[0].action}
                   <span className="material-symbols-outlined group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
-                </button>
+                </Link>
               </div>
             </article>
 
@@ -334,9 +425,9 @@ export default function Platforms() {
               </div>
               <div>
                 <div className="h-px bg-outline-variant/15 mb-6"></div>
-                <button className="w-full py-3 bg-surface-container-low text-on-surface font-headline font-bold uppercase tracking-wider rounded-lg hover:bg-surface-container-high transition-all">
+                <Link to={`/channel/${s[1].id || ''}`} className="w-full py-3 bg-surface-container-low text-on-surface font-headline font-bold uppercase tracking-wider rounded-lg hover:bg-surface-container-high transition-all flex items-center justify-center">
                   {s[1].action}
-                </button>
+                </Link>
               </div>
             </article>
 
@@ -352,9 +443,9 @@ export default function Platforms() {
               <p className="text-on-surface-variant leading-relaxed flex-grow">
                 {s[2].description}
               </p>
-              <button className="mt-8 flex items-center gap-2 text-surface-tint font-headline font-bold uppercase tracking-widest hover:gap-4 transition-all">
+              <Link to={`/channel/${s[2].id || ''}`} className="mt-8 flex items-center gap-2 text-surface-tint font-headline font-bold uppercase tracking-widest hover:gap-4 transition-all">
                 {s[2].action} <span className="material-symbols-outlined">east</span>
-              </button>
+              </Link>
             </article>
 
             {/* Slot 4: Kinetic/Visual (7 cols) */}
@@ -366,7 +457,7 @@ export default function Platforms() {
                     {s[3].description}
                   </p>
                   <div className="flex items-center gap-4">
-                    <button className="px-6 py-2 bg-primary text-white font-headline font-bold uppercase text-xs tracking-widest rounded-lg">View Channels</button>
+                    <Link to={`/channel/${s[3].id || ''}`} className="px-6 py-2 bg-primary text-white font-headline font-bold uppercase text-xs tracking-widest rounded-lg">View Channel</Link>
                     <span className="text-[10px] font-label font-bold uppercase tracking-tighter opacity-40">{s[3].metadata}</span>
                   </div>
                 </div>
@@ -386,9 +477,9 @@ export default function Platforms() {
               <p className="text-on-primary/70 text-sm leading-relaxed mb-8">
                 {s[4].description}
               </p>
-              <button className="w-full py-3 bg-on-primary text-primary font-headline font-bold uppercase tracking-wider rounded-lg hover:bg-surface-tint hover:text-white transition-all">
+              <Link to={`/channel/${s[4].id || ''}`} className="w-full py-3 bg-on-primary text-primary font-headline font-bold uppercase tracking-wider rounded-lg hover:bg-surface-tint hover:text-white transition-all flex items-center justify-center">
                 {s[4].action}
-              </button>
+              </Link>
             </article>
 
             {/* Slot 6: Minimalist (4 cols) */}
@@ -401,7 +492,7 @@ export default function Platforms() {
               </div>
               <div className="mt-8 flex items-center justify-between">
                 <span className="material-symbols-outlined text-outline">{s[5].icon}</span>
-                <button className="font-headline font-bold uppercase tracking-widest text-sm hover:text-surface-tint transition-colors">{s[5].action}</button>
+                <Link to={`/channel/${s[5].id || ''}`} className="font-headline font-bold uppercase tracking-widest text-sm hover:text-surface-tint transition-colors">{s[5].action}</Link>
               </div>
             </article>
 
@@ -501,51 +592,55 @@ export default function Platforms() {
 
         {/* COUNTRY BENTO GRID */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          {pageItems.map((country) => (
-            <div
-              key={country.id}
-              onClick={() => setSelectedId(country.id)}
-              className={`${country.large ? 'md:col-span-2 aspect-[16/9] md:aspect-auto p-10' : 'aspect-[4/5] p-8'} group relative overflow-hidden rounded-2xl flex flex-col justify-end cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-500`}
-            >
-              <img
-                className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ${country.large ? 'group-hover:scale-105' : 'group-hover:scale-110'}`}
-                src={country.img}
-                alt={country.name}
-              />
-              <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent ${country.large ? 'md:bg-gradient-to-r' : ''}`}></div>
-              <div className="relative z-10 text-white">
-                {country.label && (
-                  <span className="font-label text-red-500 text-[10px] font-black tracking-widest uppercase mb-2 block">
-                    {country.label}
-                  </span>
-                )}
-                <h3 className={`${country.large ? 'text-6xl md:text-7xl mb-6' : 'text-4xl mb-3'} font-headline font-black uppercase tracking-tighter leading-none`}>
-                  {country.name}
-                </h3>
-                {country.large && (
-                  <p className="font-body text-white/70 max-w-sm text-lg leading-relaxed mb-8 hidden md:block">
-                    {country.description}
-                  </p>
-                )}
-                {(country.id === 'USA' || country.id === 'India') ? (
-                  <button className="bg-red-600 text-white px-6 py-3 rounded-xl font-label text-[11px] font-black uppercase tracking-[0.2em] hover:bg-red-700 hover:scale-105 active:scale-95 transition-all flex items-center gap-3 shadow-lg shadow-red-600/40 mt-4">
-                    <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-                    {country.status}
-                  </button>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
-                    <p className="font-label text-[10px] font-bold text-white/70 uppercase tracking-widest">
-                      {country.status}
+          {pageItems.map((country) => {
+            const realCount = countFor(country.name);
+            const displayStatus = realCount > 0 ? `${realCount} Channel${realCount !== 1 ? 's' : ''} Live` : country.status;
+            return (
+              <div
+                key={country.id}
+                onClick={() => setSelectedId(country.id)}
+                className={`${country.large ? 'md:col-span-2 aspect-[16/9] md:aspect-auto p-10' : 'aspect-[4/5] p-8'} group relative overflow-hidden rounded-2xl flex flex-col justify-end cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-500`}
+              >
+                <img
+                  className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ${country.large ? 'group-hover:scale-105' : 'group-hover:scale-110'}`}
+                  src={country.img}
+                  alt={country.name}
+                />
+                <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent ${country.large ? 'md:bg-gradient-to-r' : ''}`}></div>
+                <div className="relative z-10 text-white">
+                  {country.label && (
+                    <span className="font-label text-red-500 text-[10px] font-black tracking-widest uppercase mb-2 block">
+                      {country.label}
+                    </span>
+                  )}
+                  <h3 className={`${country.large ? 'text-6xl md:text-7xl mb-6' : 'text-4xl mb-3'} font-headline font-black uppercase tracking-tighter leading-none`}>
+                    {country.name}
+                  </h3>
+                  {country.large && (
+                    <p className="font-body text-white/70 max-w-sm text-lg leading-relaxed mb-8 hidden md:block">
+                      {country.description}
                     </p>
-                  </div>
-                )}
+                  )}
+                  {(country.id === 'USA' || country.id === 'India') ? (
+                    <button className="bg-red-600 text-white px-6 py-3 rounded-xl font-label text-[11px] font-black uppercase tracking-[0.2em] hover:bg-red-700 hover:scale-105 active:scale-95 transition-all flex items-center gap-3 shadow-lg shadow-red-600/40 mt-4">
+                      <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                      {displayStatus}
+                    </button>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                      <p className="font-label text-[10px] font-bold text-white/70 uppercase tracking-widest">
+                        {displayStatus}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div className="absolute top-8 right-8 material-symbols-outlined text-white/30 group-hover:text-white transition-colors">
+                  north_east
+                </div>
               </div>
-              <div className="absolute top-8 right-8 material-symbols-outlined text-white/30 group-hover:text-white transition-colors">
-                north_east
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </section>
 
         {/* PAGINATION CONTROLS */}

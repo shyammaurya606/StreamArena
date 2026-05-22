@@ -1,0 +1,34 @@
+{
+    "subtitle": "The ultimate directory for global sports broadcasting. Every game, every channel, zero clutter.",
+    "badge_text": "Live: Champions League Finals",
+    "hero_image": "/hero-arena.png",
+    "live_ticker": [
+        {
+            "label": "Live Match",
+            "score": "3 – 2",
+            "team1": "Real Madrid",
+            "team2": "Liverpool",
+            "elapsed": "78'"
+        },
+        {
+            "label": "Live Match",
+            "score": "112 – 108",
+            "team1": "Lakers",
+            "team2": "Warriors",
+            "elapsed": "Q4"
+        },
+        {
+            "label": "Live Match",
+            "team1": "Team A",
+            "team2": "Team B",
+            "score": "Not Today",
+            "elapsed": "Day after Tomorrow"
+        }
+    ],
+    "headline_line1": "STREAM",
+    "headline_line2": "ARENA",
+    "cta_primary_href": "/live",
+    "cta_primary_label": "Live Now",
+    "cta_secondary_href": "/schedules",
+    "cta_secondary_label": "View Schedule"
+}
