@@ -39,7 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       // Sync user to backend so Admin can view/manage them
       if (user) {
-        fetch("http://localhost:8000/api/users/sync", {
+        fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/api/users/sync", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

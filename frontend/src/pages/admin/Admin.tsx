@@ -121,7 +121,7 @@ export default function Admin() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <a href="http://localhost:8000/docs" target="_blank" rel="noreferrer"
+            <a href={`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/docs" target="_blank" rel="noreferrer"
               className="hidden sm:flex items-center gap-2 text-gray-500 hover:text-white text-xs font-label uppercase tracking-widest px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors">
               <span className="material-symbols-outlined text-sm">api</span> API Docs
             </a>
