@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API = "http://localhost:8000";
+const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 interface Config { api_sports_enabled: boolean; cricket_api_enabled: boolean; news_api_enabled: boolean; }
 const DEFAULT: Config = { api_sports_enabled: true, cricket_api_enabled: true, news_api_enabled: true };

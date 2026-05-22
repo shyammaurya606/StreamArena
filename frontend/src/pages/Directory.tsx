@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
-const API = "http://localhost:8000";
+const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=60",

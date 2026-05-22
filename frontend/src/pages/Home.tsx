@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-const API = "http://localhost:8000";
+const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 interface TickerItem { label: string; team1: string; team2: string; score: string; elapsed: string; }
 interface Banner {

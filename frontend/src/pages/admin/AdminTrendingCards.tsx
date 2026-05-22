@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API = "http://localhost:8000";
+const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 interface TrendingCard { image: string; sport_label: string; title: string; score: string; score_detail: string; href: string; }
 interface FeaturedCard { image: string; badge: string; label: string; title: string; viewers: string; href: string; description?: string; }

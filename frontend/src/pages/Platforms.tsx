@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const API = "http://localhost:8000";
+const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 interface Channel {
   id: string; short_name: string; full_name: string; category: string;

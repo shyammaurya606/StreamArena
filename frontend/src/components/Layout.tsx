@@ -32,7 +32,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     }
 
     const trackEvent = (event: string, target?: string, duration: number = 0) => {
-      fetch("http://localhost:8000/api/analytics/track", {
+      fetch((import.meta.env.VITE_API_BASE_URL || "http://localhost:8000") + "/api/analytics/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
